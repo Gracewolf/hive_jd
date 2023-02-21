@@ -1,0 +1,58 @@
+SELECT
+ bu_id,
+ bu_name,
+ COALESCE(dept_id_1, bu_id) dept_id_1,
+ COALESCE(dept_name_1, bu_name) dept_name_1,
+ COALESCE(dept_id_2, dept_id_1, bu_id) dept_id_2,
+ COALESCE(dept_name_2, dept_name_1, bu_name) dept_name_2,
+ COALESCE(dept_id_3, dept_id_2, dept_id_1, bu_id) dept_id_3,
+ COALESCE(dept_name_3, dept_name_2, dept_name_1, bu_name) dept_name_3,
+ COUNT(1) AS pv,
+ COUNT(DISTINCT browser_uniq_id) AS uv,
+ period
+FROM
+ (
+  SELECT
+   dt period,
+   sku_id,
+   browser_uniq_id
+  FROM
+   adm.adm_sch_d14_traffic_plat_item_di
+  WHERE
+   dt = sysdate( - 2)
+   AND ge_sku_flag = 1
+   AND blacklist_flag <> 1
+ )
+ a
+JOIN
+ (
+  SELECT
+   item_sku_id,
+   bu_id,
+   bu_name,
+   dept_name_1,
+   dept_id_1,
+   dept_name_2,
+   dept_id_2,
+   dept_name_3,
+   dept_id_3
+  FROM
+   gdm.gdm_m03_mkt_item_sku_da
+  WHERE
+   dt = sysdate( - 2)
+   AND bu_id = '1727'
+ )
+ b
+ON
+ a.sku_id = b.item_sku_id
+GROUP BY
+ period,
+ bu_id,
+ bu_name,
+ dept_id_1,
+ dept_name_1,
+ dept_id_2,
+ dept_name_2,
+ dept_id_3,
+ dept_name_3 grouping sets((period, bu_id, bu_name),(period, bu_id, bu_name, dept_id_1, dept_name_1),(period, bu_id, bu_name, dept_id_1, dept_name_1, dept_id_2, dept_name_2),
+ (period, bu_id, bu_name, dept_id_1, dept_name_1, dept_id_2, dept_name_2, dept_id_3, dept_name_3))

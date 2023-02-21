@@ -1,0 +1,44 @@
+CREATE
+	TABLE dev_dkx.wgh_dsc_report_user_m_base
+	(
+		period string,
+		type string,
+		bu_id string,
+		bu_name string,
+		dept_id_1 string,
+		dept_name_1 string,
+		dept_id_2 string,
+		dept_name_2 string,
+		dept_id_3 string,
+		dept_name_3 string,
+		user_type string,
+		users bigint,
+		reusers bigint,
+		par_ord_num bigint,
+		ord_num bigint,
+		sale_qtty bigint,
+		amount bigint,
+		arpu                       DECIMAL(16, 4),
+		user_per_price             DECIMAL(16, 4),
+		unit_per_price             DECIMAL(16, 4),
+		user_per_unit              DECIMAL(16, 4),
+		purchase_frequency         DECIMAL(16, 4),
+		after_purchase_rate        DECIMAL(16, 4),
+		user_tb                    DECIMAL(16, 4),
+		reusers_tb                 DECIMAL(16, 4),
+		par_ord_num_tb             DECIMAL(16, 4),
+		ord_num_tb                 DECIMAL(16, 4),
+		sale_qtty_tb               DECIMAL(16, 4),
+		amount_tb                  DECIMAL(16, 4),
+		arpu_tb                    DECIMAL(16, 4),
+		user_per_price_tb          DECIMAL(16, 4),
+		unit_per_price_tb          DECIMAL(16, 4),
+		user_per_unit_tb           DECIMAL(16, 4),
+		purchase_frequency_tb      DECIMAL(16, 4),
+		after_purchase_rate_change DECIMAL(16, 4)
+	)
+	partitioned BY
+	(
+		dp string,
+		dt string
+	)
